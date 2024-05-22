@@ -3,14 +3,12 @@ package com.example.project;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.content.SharedPreferences;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.MenuItem;
@@ -43,7 +41,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
     // Обработка нажатия на иконку меню в ActionBar для открытия и закрытия Drawer
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (toggle.onOptionsItemSelected(item)) {
             return true;
         }

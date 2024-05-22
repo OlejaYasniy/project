@@ -5,7 +5,7 @@
         <item name="colorPrimary">@color/white</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimary</item>
+        <item name="android:statusBarColor" >?attr/colorPrimary</item>
         <!-- Customize your theme here. -->
     </style>
 
@@ -14,7 +14,7 @@
     <!-- SplashScreen -->
     <style name="SplashScreen" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="android:windowBackground">@drawable/splash_screen</item>
-        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorOnPrimary</item>
+        <item name="android:statusBarColor" >?attr/colorOnPrimary</item>
     </style>
 
     <style name="DarkTheme" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
