@@ -26,6 +26,35 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setChangeTheme();
+        setContentView(R.layout.activity_main);
+        addNavigationDrawer();
+        ButtonNav();
+        moveToFr();
+    }
+
+    public void moveToFr(){
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        int currentFragment = sharedPreferences.getInt("current_fragment", 0); // 0 - индекс фрагмента по умолчанию
+        if (currentFragment == 0) {
+            moveToHomeFr();
+        } else if (currentFragment == 1) {
+            moveToSearchFr();
+        } else if (currentFragment == 2) {
+            moveToNewsFr();
+        } else if (currentFragment == 3) {
+            moveToSettingsFr();
+        } else if (currentFragment == 4) {
+            moveToLoginFr();
+        } else if (currentFragment == 5) {
+            moveToFavoriteFr();
+        } else if (currentFragment == 6) {
+            moveToInfoFr();
+        }
+    }
+
+
+    public void setChangeTheme(){
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         i = sharedPreferences.getBoolean("isDarkTheme", false);
         if (i) {
@@ -33,12 +62,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else {
             setTheme(R.style.LightTheme);
         }
-        setContentView(R.layout.activity_main);
-        moveToHomeFr();
-        addNavigationDrawer();
-        ButtonNav();
-
     }
+
     // Обработка нажатия на иконку меню в ActionBar для открытия и закрытия Drawer
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -141,6 +166,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fragmentTransaction.replace(R.id.fragment_container, fHome);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt("current_fragment", 0); // Индекс фрагмента HomeFragment
+        editor.apply();
     }
 
     private void moveToSearchFr() {
@@ -150,6 +179,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fragmentTransaction.replace(R.id.fragment_container, fSearch);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt("current_fragment", 1); // Индекс фрагмента HomeFragment
+        editor.apply();
     }
 
     private void moveToNewsFr() {
@@ -159,6 +192,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fragmentTransaction.replace(R.id.fragment_container, fNews);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt("current_fragment", 2); // Индекс фрагмента HomeFragment
+        editor.apply();
     }
 
     private void moveToSettingsFr() {
@@ -168,6 +205,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fragmentTransaction.replace(R.id.fragment_container, fSettings);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt("current_fragment", 3); // Индекс фрагмента HomeFragment
+        editor.apply();
     }
 
     private void moveToLoginFr() {
@@ -177,6 +218,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fragmentTransaction.replace(R.id.fragment_container, fLogin);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt("current_fragment", 4); // Индекс фрагмента HomeFragment
+        editor.apply();
     }
     private void moveToFavoriteFr() {
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -185,6 +230,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fragmentTransaction.replace(R.id.fragment_container, fFavorite);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt("current_fragment", 5); // Индекс фрагмента HomeFragment
+        editor.apply();
     }
 
     private void moveToInfoFr() {
@@ -194,5 +243,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fragmentTransaction.replace(R.id.fragment_container, fInfo);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt("current_fragment", 6); // Индекс фрагмента HomeFragment
+        editor.apply();
     }
 }
