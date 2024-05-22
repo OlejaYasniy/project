@@ -17,4 +17,13 @@
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorOnPrimary</item>
     </style>
 
+    <style name="DarkTheme" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+    </style>
+
+    <style name="LightTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">
+    </style>
+
+
+    <color name="dark_gray">#363433</color>
+    <color name="light_gray">#555050</color>
 </resources>

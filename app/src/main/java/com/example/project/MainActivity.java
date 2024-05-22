@@ -3,12 +3,16 @@ package com.example.project;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.MenuItem;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -19,10 +23,18 @@ import java.util.Objects;
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
     private ActionBarDrawerToggle toggle;
+    public boolean i;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        i = sharedPreferences.getBoolean("isDarkTheme", true);
+        if (i) {
+            setTheme(R.style.DarkTheme);
+        } else {
+            setTheme(R.style.LightTheme);
+        }
         setContentView(R.layout.activity_main);
         moveToHomeFr();
         addNavigationDrawer();
@@ -84,6 +96,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        MenuItem modeItem = navigationView.getMenu().findItem(R.id.mode);
+        if (!i){
+            modeItem.setIcon(R.drawable.dark_mode);
+            modeItem.setTitle(R.string.dark_mode);
+        }else{
+            modeItem.setIcon(R.drawable.light_mode);
+            modeItem.setTitle(R.string.light_mode);
+        }
     }
 
     @Override
@@ -92,8 +112,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if (id == R.id.login) {
             moveToLoginFr();
-        } else if (id == R.id.dark_mode) {
-
+        } else if (id == R.id.mode) {
+            if (i) {
+                // устанавливаем светлую иконку для пункта меню
+                setTheme(R.style.LightTheme);
+                i = false;
+            } else {
+                // устанавливаем темную иконку для пункта меню
+                setTheme(R.style.DarkTheme);
+                i = true;
+            }
+            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putBoolean("isDarkTheme", i);
+            editor.apply();
+            recreate();
         }
         else if (id == R.id.info) {
             moveToInfoFr();

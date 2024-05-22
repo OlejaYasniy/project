@@ -5,9 +5,9 @@
         android:icon="@drawable/login"
         android:title="@string/enter" />
     <item
-        android:id="@+id/dark_mode"
-    android:icon="@drawable/dark_mode"
-    android:title="@string/dark_mode" />
+        android:id="@+id/mode"
+    android:icon="@drawable/light_mode"
+    android:title="@string/light_mode" />
     <item
         android:id="@+id/info"
         android:icon="@drawable/info"
