@@ -22,6 +22,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private ActionBarDrawerToggle toggle;
     public boolean i;
+    private int currentFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,12 +31,33 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
         addNavigationDrawer();
         ButtonNav();
-        moveToFr();
+        if (savedInstanceState == null) {
+            // Сохраняем текущий фрагмент в SharedPreferences
+            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putInt("current_fragment", 0); // 0 - индекс фрагмента по умолчанию
+            editor.apply();
+            moveToFr();
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        // Сохраняем текущий фрагмент в Bundle
+        outState.putInt("current_fragment", currentFragment);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        // Восстанавливаем текущий фрагмент из Bundle
+        currentFragment = savedInstanceState.getInt("current_fragment");
     }
 
     public void moveToFr(){
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        int currentFragment = sharedPreferences.getInt("current_fragment", 0); // 0 - индекс фрагмента по умолчанию
+        currentFragment = sharedPreferences.getInt("current_fragment", 0); // 0 - индекс фрагмента по умолчанию
         if (currentFragment == 0) {
             moveToHomeFr();
         } else if (currentFragment == 1) {
@@ -52,7 +74,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             moveToInfoFr();
         }
     }
-
 
     public void setChangeTheme(){
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -149,6 +170,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putBoolean("isDarkTheme", i);
             editor.apply();
+            // Сохраняем текущий фрагмент в SharedPreferences перед вызовом recreate()
+            editor = PreferenceManager.getDefaultSharedPreferences(this).edit();
+            editor.putInt("current_fragment", currentFragment);
+            editor.apply();
             recreate();
         }
         else if (id == R.id.info) {
@@ -166,6 +191,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fragmentTransaction.replace(R.id.fragment_container, fHome);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
+        // Сохраняем текущий фрагмент в SharedPreferences
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putInt("current_fragment", 0); // Индекс фрагмента HomeFragment
@@ -179,6 +205,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fragmentTransaction.replace(R.id.fragment_container, fSearch);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
+        // Сохраняем текущий фрагмент в SharedPreferences
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putInt("current_fragment", 1); // Индекс фрагмента HomeFragment
@@ -192,6 +219,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fragmentTransaction.replace(R.id.fragment_container, fNews);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
+        // Сохраняем текущий фрагмент в SharedPreferences
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putInt("current_fragment", 2); // Индекс фрагмента HomeFragment
@@ -205,6 +233,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fragmentTransaction.replace(R.id.fragment_container, fSettings);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
+        // Сохраняем текущий фрагмент в SharedPreferences
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putInt("current_fragment", 3); // Индекс фрагмента HomeFragment
@@ -218,6 +247,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fragmentTransaction.replace(R.id.fragment_container, fLogin);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
+        // Сохраняем текущий фрагмент в SharedPreferences
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putInt("current_fragment", 4); // Индекс фрагмента HomeFragment
@@ -230,6 +260,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fragmentTransaction.replace(R.id.fragment_container, fFavorite);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
+        // Сохраняем текущий фрагмент в SharedPreferences
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putInt("current_fragment", 5); // Индекс фрагмента HomeFragment
@@ -243,6 +274,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fragmentTransaction.replace(R.id.fragment_container, fInfo);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
+        // Сохраняем текущий фрагмент в SharedPreferences
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putInt("current_fragment", 6); // Индекс фрагмента HomeFragment
