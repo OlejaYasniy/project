@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        i = sharedPreferences.getBoolean("isDarkTheme", true);
+        i = sharedPreferences.getBoolean("isDarkTheme", false);
         if (i) {
             setTheme(R.style.DarkTheme);
         } else {
