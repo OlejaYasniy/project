@@ -8,6 +8,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -154,7 +155,16 @@ public class MainActivity extends AppCompatActivity implements
             modeItem.setIcon(R.drawable.light_mode);
             modeItem.setTitle(R.string.light_mode);
         }
+
+        // Установить текст пункта меню "login" в соответствии с сохраненным состоянием
+        MenuItem loginItem = navigationView.getMenu().findItem(R.id.login);
+        if (getLoginIconState()) {
+            loginItem.setTitle(R.string.profile);
+        } else {
+            loginItem.setTitle(R.string.enter);
+        }
     }
+
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -200,13 +210,16 @@ public class MainActivity extends AppCompatActivity implements
         NavigationView navigationView = findViewById(R.id.nav_view);
         MenuItem loginItem = navigationView.getMenu().findItem(R.id.login);
         loginItem.setTitle(R.string.profile);
+        saveLoginIconState(true);
     }
 
     public void changeIcon2() {
         NavigationView navigationView = findViewById(R.id.nav_view);
         MenuItem loginItem = navigationView.getMenu().findItem(R.id.login);
         loginItem.setTitle(R.string.enter);
+        saveLoginIconState(false);
     }
+
 
 
     public void moveToHomeFr() {
@@ -314,22 +327,46 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     private void moveToProfileFr() {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        LoginFragment loginFragment = (LoginFragment) fragmentManager.findFragmentByTag("LoginFragment"); // ищем фрагмент по тегу "LoginFragment"
-        if (loginFragment != null) {
-            ProfileFragment profileFragment = ProfileFragment.newInstance(loginFragment.getLogin(), loginFragment.getPassword());
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.fragment_container, profileFragment, "ProfileFragment"); // устанавливаем тег "ProfileFragment"
+        String[] userData = getUserData();
+        String login = userData[0];
+        String password = userData[1];
+
+        if (login != null && password != null) {
+            ProfileFragment profileFragment = ProfileFragment.newInstance(login, password);
+            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.fragment_container, profileFragment, "ProfileFragment");
             fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
         } else {
             Toast.makeText(this, "Login fragment not found", Toast.LENGTH_SHORT).show();
         }
-        // Сохраняем текущий фрагмент в SharedPreferences
-        SharedPreferences sharedPreferences =
-                PreferenceManager.getDefaultSharedPreferences(this);
+
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putInt("current_fragment", 7);
         editor.apply();
     }
+
+
+    public String[] getUserData() {
+        SharedPreferences sharedPreferences = getSharedPreferences("user_data", Context.MODE_PRIVATE);
+        String login = sharedPreferences.getString("login", null);
+        String password = sharedPreferences.getString("password", null);
+        return new String[]{login, password};
+    }
+
+    public void saveLoginIconState(boolean isProfile) {
+        SharedPreferences sharedPreferences = getSharedPreferences("icon_state", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("is_profile", isProfile);
+        editor.apply();
+    }
+
+    public boolean getLoginIconState() {
+        SharedPreferences sharedPreferences = getSharedPreferences("icon_state", Context.MODE_PRIVATE);
+        return sharedPreferences.getBoolean("is_profile", false);
+    }
+
+
+
 }

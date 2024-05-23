@@ -1,5 +1,7 @@
 package com.example.project;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
@@ -21,6 +23,12 @@ public class ProfileFragment extends Fragment {
         Bundle args = new Bundle();
         args.putString("login", login);
         args.putString("password", password);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    public static ProfileFragment newInstance(Bundle args) {
+        ProfileFragment fragment = new ProfileFragment();
         fragment.setArguments(args);
         return fragment;
     }
@@ -53,6 +61,7 @@ public class ProfileFragment extends Fragment {
         // Установить текст логина и пароля
         mLoginTextView.setText(mLogin);
         mPasswordTextView.setText(mPassword);
+        saveUserData();
 
         return view;
     }
@@ -69,4 +78,13 @@ public class ProfileFragment extends Fragment {
         // Перейти на HomeFragment
         mainActivity.moveToHomeFr();
     }
+
+    public void saveUserData() {
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("user_data", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("login", mLogin);
+        editor.putString("password", mPassword);
+        editor.apply();
+    }
+
 }

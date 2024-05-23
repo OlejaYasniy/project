@@ -135,11 +135,18 @@ public class LoginFragment extends Fragment {
                 }
 
                 if (userFound) {
+                    // Передаем логин и пароль в ProfileFragment
+                    Bundle args = new Bundle();
+                    args.putString("login", loginText);
+                    args.putString("password", passwordText);
+                    ProfileFragment profileFragment = ProfileFragment.newInstance(args);
+
                     FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                    fragmentTransaction.replace(R.id.fragment_container, new HomeFragment());
+                    fragmentTransaction.replace(R.id.fragment_container, profileFragment);
                     fragmentTransaction.addToBackStack(null);
                     fragmentTransaction.commit();
+
                     Toast.makeText(getActivity(), "You are logged in", Toast.LENGTH_SHORT).show();
                     ((MainActivity) getActivity()).changeIcon();
                 } else {
@@ -149,11 +156,11 @@ public class LoginFragment extends Fragment {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                // Handle database error
                 Toast.makeText(getActivity(), "Database error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
+
     public String getLogin() {
         return mLogin;
     }
