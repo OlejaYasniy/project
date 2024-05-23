@@ -1,5 +1,6 @@
 package com.example.project;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 
@@ -16,6 +17,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -28,6 +30,9 @@ import com.google.firebase.database.ValueEventListener;
  * create an instance of this fragment.
  */
 public class LoginFragment extends Fragment {
+
+    private String mLogin;
+    private String mPassword;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -92,9 +97,10 @@ public class LoginFragment extends Fragment {
                 if (!loginText.contains("@") || loginText.isEmpty() || passwordText.isEmpty()) {
                     Toast.makeText(getActivity(), "Invalid login or password", Toast.LENGTH_SHORT).show();
                     return;
-                }else {
+                } else {
+                    mLogin = loginText;
+                    mPassword = passwordText;
                     getDataBaseInfo(loginText, passwordText);
-
                 }
             }
         });
@@ -135,7 +141,7 @@ public class LoginFragment extends Fragment {
                     fragmentTransaction.addToBackStack(null);
                     fragmentTransaction.commit();
                     Toast.makeText(getActivity(), "You are logged in", Toast.LENGTH_SHORT).show();
-
+                    ((MainActivity) getActivity()).changeIcon();
                 } else {
                     Toast.makeText(getActivity(), "Invalid login or password", Toast.LENGTH_SHORT).show();
                 }
@@ -148,5 +154,11 @@ public class LoginFragment extends Fragment {
             }
         });
     }
+    public String getLogin() {
+        return mLogin;
+    }
 
+    public String getPassword() {
+        return mPassword;
+    }
 }

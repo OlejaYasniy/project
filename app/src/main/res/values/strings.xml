@@ -14,4 +14,8 @@
     <string name="IKBO_11_22">Курсовая работа Гришановича Олега ИКБО–11–22</string>
     <string name="news">Новости\n</string>
     <string name="light_mode">Светлая тема</string>
+    <string name="profile">Профиль</string>
+    <string name="login">"Login: "</string>
+    <string name="password">"Password: "</string>
+    <string name="logout">Logout</string>
 </resources>
