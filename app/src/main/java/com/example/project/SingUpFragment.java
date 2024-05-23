@@ -1,9 +1,8 @@
 package com.example.project;
 
-import android.content.Context;
+import android.app.Activity;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -16,18 +15,15 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link LoginFragment#newInstance} factory method to
+ * Use the {@link SingUpFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class LoginFragment extends Fragment {
+public class SingUpFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -41,7 +37,7 @@ public class LoginFragment extends Fragment {
     private DatabaseReference dataBase;
     private String USER_KEY = "User";
 
-    public LoginFragment() {
+    public SingUpFragment() {
         // Required empty public constructor
     }
 
@@ -51,11 +47,11 @@ public class LoginFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment LoginFragment.
+     * @return A new instance of fragment SingUpFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static LoginFragment newInstance(String param1, String param2) {
-        LoginFragment fragment = new LoginFragment();
+    public static SingUpFragment newInstance(String param1, String param2) {
+        SingUpFragment fragment = new SingUpFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -75,13 +71,13 @@ public class LoginFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_login, container, false);
-        //dataBase = FirebaseDatabase.getInstance().getReference(USER_KEY);
-        EditText login = view.findViewById(R.id.Login);
-        EditText password = view.findViewById(R.id.Password);
-        dataBase = FirebaseDatabase.getInstance().getReference(USER_KEY);
+        View view = inflater.inflate(R.layout.fragment_sing_up, container, false);
         // Добавляем обработчик нажатия на кнопку "sing up"
+        EditText password = view.findViewById(R.id.Password);
+        EditText login = view.findViewById(R.id.Login);
+        TextView singInTextView = view.findViewById(R.id.singIn);
         Button singUpButton = view.findViewById(R.id.singIN);
+        dataBase = FirebaseDatabase.getInstance().getReference(USER_KEY);
         singUpButton.setOnClickListener(new View.OnClickListener() {
             // Проверяем введенные данные
             @Override
@@ -93,20 +89,24 @@ public class LoginFragment extends Fragment {
                     Toast.makeText(getActivity(), "Invalid login or password", Toast.LENGTH_SHORT).show();
                     return;
                 }else {
-                    getDataBaseInfo(loginText, passwordText);
-
+                    dataBaseSave(login, password);
+                    // Вызываем метод FragmentManager для замены текущего фрагмента новым
+                    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.replace(R.id.fragment_container, new LoginFragment());
+                    fragmentTransaction.addToBackStack(null);
+                    fragmentTransaction.commit();
+                    Toast.makeText(getActivity(), "You are registered", Toast.LENGTH_SHORT).show();
                 }
             }
         });
-        // Добавляем обработчик нажатия на TextView "singUp"
-        TextView singUpTextView = view.findViewById(R.id.singUp);
-        singUpTextView.setOnClickListener(new View.OnClickListener() {
+        singInTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Вызываем метод FragmentManager для замены текущего фрагмента новым
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.fragment_container, new SingUpFragment());
+                fragmentTransaction.replace(R.id.fragment_container, new LoginFragment());
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
             }
@@ -115,38 +115,11 @@ public class LoginFragment extends Fragment {
         return view;
     }
 
-    private void getDataBaseInfo(String loginText, String passwordText) {
-        dataBase.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                boolean userFound = false;
-                for (DataSnapshot userSnapshot : snapshot.getChildren()) {
-                    User user = userSnapshot.getValue(User.class);
-                    if (user.login.equals(loginText) && user.password.equals(passwordText)) {
-                        userFound = true;
-                        break;
-                    }
-                }
-
-                if (userFound) {
-                    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                    fragmentTransaction.replace(R.id.fragment_container, new HomeFragment());
-                    fragmentTransaction.addToBackStack(null);
-                    fragmentTransaction.commit();
-                    Toast.makeText(getActivity(), "You are logged in", Toast.LENGTH_SHORT).show();
-
-                } else {
-                    Toast.makeText(getActivity(), "Invalid login or password", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                // Handle database error
-                Toast.makeText(getActivity(), "Database error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
+    public void dataBaseSave(EditText login, EditText password){
+        String id = dataBase.getKey();
+        String Login = login.getText().toString();
+        String Password = password.getText().toString();
+        User newUser = new User(id, Login, Password);
+        dataBase.push().setValue(newUser);
     }
-
 }

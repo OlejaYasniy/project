@@ -18,7 +18,8 @@ import com.google.android.material.navigation.NavigationView;
 
 import java.util.Objects;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+public class MainActivity extends AppCompatActivity implements
+        NavigationView.OnNavigationItemSelectedListener{
 
     private ActionBarDrawerToggle toggle;
     public boolean i;
@@ -56,8 +57,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     public void moveToFr(){
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        currentFragment = sharedPreferences.getInt("current_fragment", 0); // 0 - индекс фрагмента по умолчанию
+        SharedPreferences sharedPreferences =
+                PreferenceManager.getDefaultSharedPreferences(this);
+        currentFragment = sharedPreferences
+                .getInt("current_fragment", 0); // 0 - индекс фрагмента по умолчанию
         if (currentFragment == 0) {
             moveToHomeFr();
         } else if (currentFragment == 1) {
@@ -76,7 +79,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     public void setChangeTheme(){
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences sharedPreferences =
+                PreferenceManager.getDefaultSharedPreferences(this);
         i = sharedPreferences.getBoolean("isDarkTheme", false);
         if (i) {
             setTheme(R.style.DarkTheme);
@@ -96,7 +100,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void ButtonNav() {
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+        bottomNavigationView.setOnNavigationItemSelectedListener
+                (new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 if (item.getItemId() == R.id.home) {
@@ -166,7 +171,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 setTheme(R.style.DarkTheme);
                 i = true;
             }
-            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+            SharedPreferences sharedPreferences =
+                    PreferenceManager.getDefaultSharedPreferences(this);
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putBoolean("isDarkTheme", i);
             editor.apply();
@@ -192,7 +198,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
         // Сохраняем текущий фрагмент в SharedPreferences
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences sharedPreferences =
+                PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putInt("current_fragment", 0); // Индекс фрагмента HomeFragment
         editor.apply();
@@ -206,7 +213,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
         // Сохраняем текущий фрагмент в SharedPreferences
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences sharedPreferences =
+                PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putInt("current_fragment", 1); // Индекс фрагмента HomeFragment
         editor.apply();
@@ -220,7 +228,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
         // Сохраняем текущий фрагмент в SharedPreferences
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences sharedPreferences =
+                PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putInt("current_fragment", 2); // Индекс фрагмента HomeFragment
         editor.apply();
@@ -234,7 +243,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
         // Сохраняем текущий фрагмент в SharedPreferences
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences sharedPreferences =
+                PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putInt("current_fragment", 3); // Индекс фрагмента HomeFragment
         editor.apply();
@@ -248,7 +258,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
         // Сохраняем текущий фрагмент в SharedPreferences
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences sharedPreferences =
+                PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putInt("current_fragment", 4); // Индекс фрагмента HomeFragment
         editor.apply();
@@ -261,7 +272,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
         // Сохраняем текущий фрагмент в SharedPreferences
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences sharedPreferences =
+                PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putInt("current_fragment", 5); // Индекс фрагмента HomeFragment
         editor.apply();
@@ -275,7 +287,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
         // Сохраняем текущий фрагмент в SharedPreferences
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences sharedPreferences =
+                PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putInt("current_fragment", 6); // Индекс фрагмента HomeFragment
         editor.apply();
