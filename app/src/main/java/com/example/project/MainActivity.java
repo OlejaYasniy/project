@@ -178,25 +178,7 @@ public class MainActivity extends AppCompatActivity implements
                 moveToProfileFr();
             }
         } else if (id == R.id.mode) {
-            if (i) {
-                // устанавливаем светлую иконку для пункта меню
-                setTheme(R.style.LightTheme);
-                i = false;
-            } else {
-                // устанавливаем темную иконку для пункта меню
-                setTheme(R.style.DarkTheme);
-                i = true;
-            }
-            SharedPreferences sharedPreferences =
-                    PreferenceManager.getDefaultSharedPreferences(this);
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putBoolean("isDarkTheme", i);
-            editor.apply();
-            // Сохраняем текущий фрагмент в SharedPreferences перед вызовом recreate()
-            editor = PreferenceManager.getDefaultSharedPreferences(this).edit();
-            editor.putInt("current_fragment", currentFragment);
-            editor.apply();
-            recreate();
+            changeTheme();
         }
         else if (id == R.id.info) {
             moveToInfoFr();
@@ -204,6 +186,24 @@ public class MainActivity extends AppCompatActivity implements
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void changeTheme(){
+        if (i) {
+            i = false;
+        } else {
+            i = true;
+        }
+        SharedPreferences sharedPreferences =
+                PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("isDarkTheme", i);
+        editor.apply();
+        // Сохраняем текущий фрагмент в SharedPreferences перед вызовом recreate()
+        editor = PreferenceManager.getDefaultSharedPreferences(this).edit();
+        editor.putInt("current_fragment", currentFragment);
+        editor.apply();
+        recreate();
     }
 
     public void changeIcon() {
