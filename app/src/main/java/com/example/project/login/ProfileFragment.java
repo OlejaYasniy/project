@@ -1,4 +1,4 @@
-package com.example.project;
+package com.example.project.login;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -9,6 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.example.project.MainActivity;
+import com.example.project.R;
 
 public class ProfileFragment extends Fragment {
 
@@ -75,8 +78,8 @@ public class ProfileFragment extends Fragment {
         MainActivity mainActivity = (MainActivity) getActivity();
         mainActivity.changeIcon2();
 
-        // Перейти на HomeFragment
-        mainActivity.moveToHomeFr();
+        // Перейти на SearchFragment
+        mainActivity.moveToSearchFr();
     }
 
     public void saveUserData() {

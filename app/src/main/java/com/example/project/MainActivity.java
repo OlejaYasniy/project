@@ -15,6 +15,14 @@ import android.preference.PreferenceManager;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.example.project.defaultfragments.FavouriteFragment;
+import com.example.project.defaultfragments.FavouriteLoginFragment;
+import com.example.project.defaultfragments.InfoFragment;
+import com.example.project.defaultfragments.SearchFragment;
+import com.example.project.defaultfragments.SettingsFragment;
+import com.example.project.login.LoginFragment;
+import com.example.project.login.ProfileFragment;
+import com.example.project.news.NewsFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 
@@ -24,7 +32,7 @@ public class MainActivity extends AppCompatActivity implements
         NavigationView.OnNavigationItemSelectedListener{
 
     private ActionBarDrawerToggle toggle;
-    public boolean i;
+    public static boolean i;
     private int currentFragment;
 
     @Override
@@ -35,24 +43,23 @@ public class MainActivity extends AppCompatActivity implements
         addNavigationDrawer();
         ButtonNav();
         if (savedInstanceState == null) {
-            // Сохраняем текущий фрагмент в SharedPreferences
+            // Восстанавливаем текущий фрагмент из SharedPreferences
             SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putInt("current_fragment", 0); // 0 - индекс фрагмента по умолчанию
-            editor.apply();
+            currentFragment = sharedPreferences.getInt("current_fragment", 0); // 0 - индекс фрагмента по умолчанию
             moveToFr();
         }
     }
 
+
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         // Сохраняем текущий фрагмент в Bundle
         outState.putInt("current_fragment", currentFragment);
     }
 
     @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         // Восстанавливаем текущий фрагмент из Bundle
         currentFragment = savedInstanceState.getInt("current_fragment");
@@ -64,19 +71,19 @@ public class MainActivity extends AppCompatActivity implements
         currentFragment = sharedPreferences
                 .getInt("current_fragment", 0); // 0 - индекс фрагмента по умолчанию
         if (currentFragment == 0) {
-            moveToHomeFr();
-        } else if (currentFragment == 1) {
             moveToSearchFr();
-        } else if (currentFragment == 2) {
+        } else if (currentFragment == 1) {
             moveToNewsFr();
-        } else if (currentFragment == 3) {
+        } else if (currentFragment == 2) {
             moveToSettingsFr();
-        } else if (currentFragment == 4) {
+        } else if (currentFragment == 3) {
             moveToLoginFr();
+        } else if (currentFragment == 4) {
+            moveToFavouriteFr();
         } else if (currentFragment == 5) {
-            moveToFavoriteFr();
-        } else if (currentFragment == 6) {
             moveToInfoFr();
+        } else if (currentFragment == 6) {
+            moveToLovePersonFr();
         }
     }
 
@@ -106,11 +113,7 @@ public class MainActivity extends AppCompatActivity implements
                 (new BottomNavigationView.OnNavigationItemSelectedListener() {
                     @Override
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                        if (item.getItemId() == R.id.home) {
-                            // Обработка выбора раздела "Домой"
-                            moveToHomeFr();
-                            return true;
-                        } else if (item.getItemId() == R.id.search) {
+                        if (item.getItemId() == R.id.search) {
                             // Обработка выбора раздела "Поиск"
                             moveToSearchFr();
                             return true;
@@ -124,7 +127,13 @@ public class MainActivity extends AppCompatActivity implements
                             return true;
                         }else if (item.getItemId() == R.id.favorite) {
                             // Обработка выбора раздела "Избранное"
-                            moveToFavoriteFr();
+                            NavigationView navigationView = findViewById(R.id.nav_view);
+                            MenuItem prItem = navigationView.getMenu().findItem(R.id.login);
+                            if(Objects.equals(prItem.getTitle(), "Войти")) {
+                                moveToFavouriteFr();
+                            }else if(Objects.requireNonNull(prItem.getTitle()).equals("Профиль")) {
+                                moveToLovePersonFr();
+                            }
                             return true;
                         }
                         else {
@@ -220,24 +229,7 @@ public class MainActivity extends AppCompatActivity implements
         saveLoginIconState(false);
     }
 
-
-
-    public void moveToHomeFr() {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        HomeFragment fHome = new HomeFragment();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_container, fHome);
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
-        // Сохраняем текущий фрагмент в SharedPreferences
-        SharedPreferences sharedPreferences =
-                PreferenceManager.getDefaultSharedPreferences(this);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putInt("current_fragment", 0);
-        editor.apply();
-    }
-
-    private void moveToSearchFr() {
+    public void moveToSearchFr() {
         FragmentManager fragmentManager = getSupportFragmentManager();
         SearchFragment fSearch = new SearchFragment();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -248,11 +240,11 @@ public class MainActivity extends AppCompatActivity implements
         SharedPreferences sharedPreferences =
                 PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putInt("current_fragment", 1);
+        editor.putInt("current_fragment", 0);
         editor.apply();
     }
 
-    private void moveToNewsFr() {
+    public void moveToNewsFr() {
         FragmentManager fragmentManager = getSupportFragmentManager();
         NewsFragment fNews = new NewsFragment();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -263,11 +255,11 @@ public class MainActivity extends AppCompatActivity implements
         SharedPreferences sharedPreferences =
                 PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putInt("current_fragment", 2);
+        editor.putInt("current_fragment", 1);
         editor.apply();
     }
 
-    private void moveToSettingsFr() {
+    public void moveToSettingsFr() {
         FragmentManager fragmentManager = getSupportFragmentManager();
         SettingsFragment fSettings = new SettingsFragment();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -278,11 +270,11 @@ public class MainActivity extends AppCompatActivity implements
         SharedPreferences sharedPreferences =
                 PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putInt("current_fragment", 3);
+        editor.putInt("current_fragment", 2);
         editor.apply();
     }
 
-    private void moveToLoginFr() {
+    public void moveToLoginFr() {
         FragmentManager fragmentManager = getSupportFragmentManager();
         LoginFragment fLogin = new LoginFragment();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -293,14 +285,29 @@ public class MainActivity extends AppCompatActivity implements
         SharedPreferences sharedPreferences =
                 PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt("current_fragment", 3);
+        editor.apply();
+    }
+    public void moveToFavouriteFr() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FavouriteFragment fFavorite = new FavouriteFragment();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_container, fFavorite);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
+        // Сохраняем текущий фрагмент в SharedPreferences
+        SharedPreferences sharedPreferences =
+                PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putInt("current_fragment", 4);
         editor.apply();
     }
-    private void moveToFavoriteFr() {
+
+    public void moveToInfoFr() {
         FragmentManager fragmentManager = getSupportFragmentManager();
-        FavoriteFragment fFavorite = new FavoriteFragment();
+        InfoFragment fInfo = new InfoFragment();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_container, fFavorite);
+        fragmentTransaction.replace(R.id.fragment_container, fInfo);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
         // Сохраняем текущий фрагмент в SharedPreferences
@@ -311,11 +318,11 @@ public class MainActivity extends AppCompatActivity implements
         editor.apply();
     }
 
-    private void moveToInfoFr() {
+    public void moveToLovePersonFr() {
         FragmentManager fragmentManager = getSupportFragmentManager();
-        InfoFragment fInfo = new InfoFragment();
+        FavouriteLoginFragment fFavouriteLogin = new FavouriteLoginFragment();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_container, fInfo);
+        fragmentTransaction.replace(R.id.fragment_container, fFavouriteLogin);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
         // Сохраняем текущий фрагмент в SharedPreferences
