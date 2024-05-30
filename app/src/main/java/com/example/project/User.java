@@ -1,4 +1,4 @@
-package com.example.project.login;
+package com.example.project;
 
 public class User {
     public String id, login, password;

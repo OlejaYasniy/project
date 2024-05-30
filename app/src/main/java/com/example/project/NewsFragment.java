@@ -1,14 +1,18 @@
-package com.example.project.news;
+package com.example.project;
 
 import android.os.Bundle;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
+import android.widget.ListView;
 
-import com.example.project.R;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -22,9 +26,14 @@ public class NewsFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
+    private ListView mListView;
+    private List<News> mNews;
+    private NewsAdapter mAdapter;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+
 
     public NewsFragment() {
         // Required empty public constructor
@@ -60,7 +69,34 @@ public class NewsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_news, container, false);
+        View view = inflater.inflate(R.layout.fragment_news, container, false);
+
+        mListView = view.findViewById(R.id.listView);
+
+        mNews = new ArrayList<>();
+        mAdapter = new NewsAdapter(getActivity(), mNews, this);
+        mListView.setAdapter(mAdapter);
+
+        // TODO: Загрузить новости в фоновом потоке при запуске фрагмента
+        new LoadNewsTask(this).execute();
+
+        return view;
+    }
+
+
+    public void openWebView(String url) {
+        WebView webView = new WebView(getActivity());
+        webView.loadUrl(url);
+        AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
+        dialog.setTitle("Новости");
+        dialog.setView(webView);
+        dialog.setNegativeButton("Закрыть", null);
+        dialog.show();
+    }
+
+    public void updateNews(List<News> news) {
+        mNews.clear();
+        mNews.addAll(news);
+        mAdapter.notifyDataSetChanged();
     }
 }

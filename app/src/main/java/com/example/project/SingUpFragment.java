@@ -1,4 +1,4 @@
-package com.example.project.defaultfragments;
+package com.example.project;
 
 import android.os.Bundle;
 
@@ -14,9 +14,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.project.R;
-import com.example.project.login.LoginFragment;
-import com.example.project.login.User;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 

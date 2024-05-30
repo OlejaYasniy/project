@@ -1,4 +1,4 @@
-package com.example.project.login;
+package com.example.project;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -9,9 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-
-import com.example.project.MainActivity;
-import com.example.project.R;
 
 public class ProfileFragment extends Fragment {
 

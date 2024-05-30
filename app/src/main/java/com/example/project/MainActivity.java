@@ -15,14 +15,6 @@ import android.preference.PreferenceManager;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.example.project.defaultfragments.FavouriteFragment;
-import com.example.project.defaultfragments.FavouriteLoginFragment;
-import com.example.project.defaultfragments.InfoFragment;
-import com.example.project.defaultfragments.SearchFragment;
-import com.example.project.defaultfragments.SettingsFragment;
-import com.example.project.login.LoginFragment;
-import com.example.project.login.ProfileFragment;
-import com.example.project.news.NewsFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 
