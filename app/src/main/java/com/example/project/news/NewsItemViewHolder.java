@@ -1,8 +1,10 @@
-package com.example.project;
+package com.example.project.news;
 
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.example.project.R;
 
 public class NewsItemViewHolder {
 

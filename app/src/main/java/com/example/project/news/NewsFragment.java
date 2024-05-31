@@ -1,4 +1,4 @@
-package com.example.project;
+package com.example.project.news;
 
 import android.os.Bundle;
 
@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.ListView;
+
+import com.example.project.R;
 
 import java.util.ArrayList;
 import java.util.List;

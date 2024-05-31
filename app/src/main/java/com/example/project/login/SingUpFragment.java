@@ -1,4 +1,4 @@
-package com.example.project;
+package com.example.project.login;
 
 import android.os.Bundle;
 
@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.project.R;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 

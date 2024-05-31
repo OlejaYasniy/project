@@ -1,4 +1,4 @@
-package com.example.project;
+package com.example.project.defaultfragments;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -11,6 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.Switch;
+
+import com.example.project.MainActivity;
+import com.example.project.R;
 
 /**
  * A simple {@link Fragment} subclass.

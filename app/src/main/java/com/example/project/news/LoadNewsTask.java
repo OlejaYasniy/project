@@ -1,6 +1,9 @@
-package com.example.project;
+package com.example.project.news;
 
 import android.os.AsyncTask;
+
+import com.example.project.news.News;
+import com.example.project.news.NewsFragment;
 
 import java.util.ArrayList;
 import java.util.List;
