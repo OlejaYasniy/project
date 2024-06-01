@@ -93,7 +93,7 @@ public class SingUpFragment extends Fragment {
                     fragmentTransaction.replace(R.id.fragment_container, new LoginFragment());
                     fragmentTransaction.addToBackStack(null);
                     fragmentTransaction.commit();
-                    Toast.makeText(getActivity(), "You are registered", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Вы зарегистрировались", Toast.LENGTH_SHORT).show();
                 }
             }
         });

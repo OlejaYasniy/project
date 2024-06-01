@@ -15,10 +15,10 @@ import android.preference.PreferenceManager;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.example.project.defaultfragments.FavouriteFragment;
-import com.example.project.defaultfragments.FavouriteLoginFragment;
+import com.example.project.favourite.FavouriteFragment;
+import com.example.project.favourite.FavouriteLoginFragment;
 import com.example.project.defaultfragments.InfoFragment;
-import com.example.project.defaultfragments.SearchFragment;
+import com.example.project.search.SearchFragment;
 import com.example.project.login.LoginFragment;
 import com.example.project.login.ProfileFragment;
 import com.example.project.defaultfragments.SettingsFragment;
@@ -34,6 +34,8 @@ public class MainActivity extends AppCompatActivity implements
     private ActionBarDrawerToggle toggle;
     public static boolean i;
     private int currentFragment;
+
+    private NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,24 +118,29 @@ public class MainActivity extends AppCompatActivity implements
                         if (item.getItemId() == R.id.search) {
                             // Обработка выбора раздела "Поиск"
                             moveToSearchFr();
+                            getSupportActionBar().setTitle("Поиск");
                             return true;
                         } else if (item.getItemId() == R.id.news) {
                             // Обработка выбора раздела "Новости"
                             moveToNewsFr();
+                            getSupportActionBar().setTitle("Новости");
                             return true;
                         } else if (item.getItemId() == R.id.settings) {
                             // Обработка выбора раздела "Настройки"
                             moveToSettingsFr();
+                            getSupportActionBar().setTitle("Настройки");
                             return true;
                         }else if (item.getItemId() == R.id.favorite) {
                             // Обработка выбора раздела "Избранное"
-                            NavigationView navigationView = findViewById(R.id.nav_view);
+                            navigationView = findViewById(R.id.nav_view);
                             MenuItem prItem = navigationView.getMenu().findItem(R.id.login);
                             if(Objects.equals(prItem.getTitle(), "Войти")) {
                                 moveToFavouriteFr();
                             }else if(Objects.requireNonNull(prItem.getTitle()).equals("Профиль")) {
                                 moveToLovePersonFr();
                             }
+                            getSupportActionBar().setTitle("Избранное");
+
                             return true;
                         }
                         else {
@@ -154,7 +161,7 @@ public class MainActivity extends AppCompatActivity implements
         toggle.syncState();
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
-        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         MenuItem modeItem = navigationView.getMenu().findItem(R.id.mode);
         if (!i){
@@ -182,14 +189,17 @@ public class MainActivity extends AppCompatActivity implements
         if (id == R.id.login) {
             String title = item.getTitle().toString();
             if (title.equals("Войти")) {
+                getSupportActionBar().setTitle("Войти");
                 moveToLoginFr();
             } else if (title.equals("Профиль")) {
                 moveToProfileFr();
+                getSupportActionBar().setTitle("Профиль");
             }
         } else if (id == R.id.mode) {
             changeTheme();
         }
         else if (id == R.id.info) {
+            getSupportActionBar().setTitle("Информация");
             moveToInfoFr();
         }
         DrawerLayout drawer = findViewById(R.id.drawer_layout);

@@ -94,7 +94,7 @@ public class LoginFragment extends Fragment {
                 String loginText = login.getText().toString();
                 String passwordText = password.getText().toString();
                 if (!loginText.contains("@") || loginText.isEmpty() || passwordText.isEmpty()) {
-                    Toast.makeText(getActivity(), "Invalid login or password", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Неправильный логин или пароль", Toast.LENGTH_SHORT).show();
                     return;
                 } else {
                     mLogin = loginText;
@@ -146,10 +146,10 @@ public class LoginFragment extends Fragment {
                     fragmentTransaction.addToBackStack(null);
                     fragmentTransaction.commit();
 
-                    Toast.makeText(getActivity(), "You are logged in", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Вы вошли", Toast.LENGTH_SHORT).show();
                     ((MainActivity) getActivity()).changeIcon();
                 } else {
-                    Toast.makeText(getActivity(), "Invalid login or password", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Неправильный логин или пароль", Toast.LENGTH_SHORT).show();
                 }
             }
 
