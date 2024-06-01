@@ -1,0 +1,63 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <View
+        android:id="@+id/background_view"
+        android:layout_width="350dp"
+        android:layout_height="300dp"
+        android:layout_marginTop="48dp"
+        android:layout_marginBottom="96dp"
+        android:background="@drawable/rounded_shape"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/image_card_view"
+        android:layout_width="300dp"
+        android:layout_height="180dp"
+        app:cardCornerRadius="40dp"
+        app:layout_constraintBottom_toTopOf="@id/text_view"
+        app:layout_constraintEnd_toEndOf="@id/background_view"
+        app:layout_constraintStart_toStartOf="@id/background_view"
+        app:layout_constraintTop_toTopOf="@id/background_view">
+
+        <ImageView
+            android:id="@+id/image_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/bmwm4" />
+
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Тестовый текст"
+        app:layout_constraintBottom_toBottomOf="@+id/background_view"
+        app:layout_constraintEnd_toEndOf="@id/background_view"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="@id/background_view"
+        app:layout_constraintTop_toBottomOf="@id/image_card_view"
+        app:layout_constraintVertical_bias="0"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Добавить в избранное"
+        app:layout_constraintBottom_toBottomOf="@+id/background_view"
+        app:layout_constraintEnd_toEndOf="@+id/text_view"
+        app:layout_constraintStart_toStartOf="@+id/text_view"
+        app:layout_constraintTop_toBottomOf="@+id/text_view"
+        app:layout_constraintVertical_bias="0.0" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

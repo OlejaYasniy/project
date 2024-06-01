@@ -2,15 +2,18 @@ package com.example.project.search;
 
 import android.os.Bundle;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SearchView;
 
+import com.example.project.MainActivity;
 import com.example.project.R;
 
 import java.util.ArrayList;
@@ -74,14 +77,14 @@ public class SearchFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_search, container, false);
+        ActionBar actionBar = ((MainActivity) getActivity()).getSupportActionBar();
+        actionBar.setTitle("Поиск");
         lv = view.findViewById(R.id.search_list);
         sv = view.findViewById(R.id.search_bar);
         list = new ArrayList<>();
         list.add("BMW");
         list.add("Audi");
         list.add("Mercedes-Benz");
-        list.add("Volkswagen");
-        list.add("Toyota");
         adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, list);
 
         lv.setAdapter(adapter);
@@ -95,6 +98,22 @@ public class SearchFragment extends Fragment {
             public boolean onQueryTextChange(String newText) {
                 adapter.getFilter().filter(newText);
                 return false;
+            }
+        });
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String item = (String) parent.getItemAtPosition(position);
+                    AutoFragment autoFragment = new AutoFragment();
+                    Bundle args = new Bundle();
+                    args.putString("auto_brand", item);
+                    autoFragment.setArguments(args);
+                    getActivity().getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.fragment_container, autoFragment)
+                            .addToBackStack(null)
+                            .commit();
+                // Добавьте аналогичный код для Audi и Mercedes-Benz
             }
         });
         // Inflate the layout for this fragment

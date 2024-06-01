@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="Bmw">
+        <item>BMW M4</item>
+        <item>BMW X5</item>
+        <item>BMW 3 Series</item>
+    </string-array>
+
+    <string-array name="Audi">
+        <item>Audi RS6</item>
+        <item>Audi Q7</item>
+        <item>Audi A4</item>
+    </string-array>
+
+    <string-array name="MercedesBenz">
+        <item>Mercedes-AMG GT</item>
+        <item>Mercedes-Benz GLE</item>
+        <item>Mercedes-Benz C-Class</item>
+    </string-array>
+</resources>
+

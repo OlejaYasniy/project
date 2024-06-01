@@ -18,6 +18,8 @@ import android.widget.Toast;
 import com.example.project.favourite.FavouriteFragment;
 import com.example.project.favourite.FavouriteLoginFragment;
 import com.example.project.defaultfragments.InfoFragment;
+import com.example.project.login.User;
+import com.example.project.search.AutoFragment;
 import com.example.project.search.SearchFragment;
 import com.example.project.login.LoginFragment;
 import com.example.project.login.ProfileFragment;
@@ -132,15 +134,13 @@ public class MainActivity extends AppCompatActivity implements
                             return true;
                         }else if (item.getItemId() == R.id.favorite) {
                             // Обработка выбора раздела "Избранное"
-                            navigationView = findViewById(R.id.nav_view);
-                            MenuItem prItem = navigationView.getMenu().findItem(R.id.login);
-                            if(Objects.equals(prItem.getTitle(), "Войти")) {
-                                moveToFavouriteFr();
-                            }else if(Objects.requireNonNull(prItem.getTitle()).equals("Профиль")) {
+                            String userId = getUserId(); // Получаем id пользователя
+                            if (userId.equals("admin")) { // Проверяем, является ли пользователь админом
                                 moveToLovePersonFr();
+                            } else {
+                                moveToFavouriteFr();
                             }
                             getSupportActionBar().setTitle("Избранное");
-
                             return true;
                         }
                         else {
@@ -384,6 +384,9 @@ public class MainActivity extends AppCompatActivity implements
         return sharedPreferences.getBoolean("is_profile", false);
     }
 
-
+    private String getUserId() {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        return sharedPreferences.getString("user_id", "");
+    }
 
 }

@@ -1,5 +1,6 @@
 package com.example.project.login;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -7,6 +8,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -129,6 +131,9 @@ public class LoginFragment extends Fragment {
                     User user = userSnapshot.getValue(User.class);
                     if (user.login.equals(loginText) && user.password.equals(passwordText)) {
                         userFound = true;
+                        if (user.id.equals("Admin")) {
+                            setUserId("admin"); // Сохраняем id пользователя
+                        }
                         break;
                     }
                 }
@@ -151,6 +156,7 @@ public class LoginFragment extends Fragment {
                 } else {
                     Toast.makeText(getActivity(), "Неправильный логин или пароль", Toast.LENGTH_SHORT).show();
                 }
+
             }
 
             @Override
@@ -167,4 +173,12 @@ public class LoginFragment extends Fragment {
     public String getPassword() {
         return mPassword;
     }
+
+    public void setUserId(String userId) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("user_id", userId);
+        editor.apply();
+    }
+
 }
