@@ -1,8 +1,10 @@
 package com.example.project.search;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,7 +22,7 @@ import com.example.project.R;
  * Use the {@link AutoFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class AutoFragment extends Fragment {
+public class AutoFragment extends Fragment implements OnImageButtonClickListener {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -73,8 +75,8 @@ public class AutoFragment extends Fragment {
         ActionBar actionBar = ((MainActivity) getActivity()).getSupportActionBar();
 
         int[] imageResources;
-        // Выбираем массив строк в зависимости от марки автомобиля
         int stringArrayId = 0;
+        int horsePowerArrayId = 0; // добавлено
         if (autoBrand.equalsIgnoreCase("BMW")) {
             stringArrayId = R.array.Bmw;
             actionBar.setTitle("BMW");
@@ -82,7 +84,8 @@ public class AutoFragment extends Fragment {
                     R.drawable.bmwm4,
                     R.drawable.bmwx5,
                     R.drawable.bmwm3s,
-            };;
+            };
+            horsePowerArrayId = R.array.BmwHorsePower;
         } else if (autoBrand.equalsIgnoreCase("Audi")) {
             stringArrayId = R.array.Audi;
             actionBar.setTitle("Audi");
@@ -91,6 +94,7 @@ public class AutoFragment extends Fragment {
                     R.drawable.audiq7,
                     R.drawable.audia4,
             };
+            horsePowerArrayId = R.array.AudiHorsePower;
         } else if (autoBrand.equalsIgnoreCase("Mercedes-Benz")) {
             stringArrayId = R.array.MercedesBenz;
             actionBar.setTitle("Mercedes-Benz");
@@ -99,18 +103,40 @@ public class AutoFragment extends Fragment {
                     R.drawable.mbgle,
                     R.drawable.mbcclass,
             };
+            horsePowerArrayId = R.array.MercedesBenzHorsePower;
         } else {
             Toast.makeText(getActivity(), "Invalid auto brand", Toast.LENGTH_SHORT).show();
             return view;
         }
 
         String[] textArray = getResources().getStringArray(stringArrayId);
+        int[] horsePowerArray = getResources().getIntArray(horsePowerArrayId);
 
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.setAdapter(new SimpleAdapter(textArray, imageResources));
+        recyclerView.setAdapter(new SimpleAdapter(textArray, imageResources, horsePowerArray, this)); // изменено
 
         return view;
     }
 
+
+    public void showDialog(String carName, int horsePower) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle(carName);
+        builder.setMessage("Вы выбрали: " + carName + "\n" + "Лошадиные силы: " + horsePower);
+
+        // Добавляем кнопку "OK"
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+
+        builder.show();
+    }
+
+    @Override
+    public void onImageButtonClick(String carName, int horsePower) {
+        showDialog(carName, horsePower);
+    }
 }

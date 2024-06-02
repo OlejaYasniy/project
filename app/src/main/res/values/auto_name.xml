@@ -17,5 +17,23 @@
         <item>Mercedes-Benz GLE</item>
         <item>Mercedes-Benz C-Class</item>
     </string-array>
+
+    <integer-array name="BmwHorsePower">
+        <item>510</item>
+        <item>298</item>
+        <item>255</item>
+    </integer-array>
+
+    <integer-array name="AudiHorsePower">
+        <item>591</item>
+        <item>335</item>
+        <item>188</item>
+    </integer-array>
+
+    <integer-array name="MercedesBenzHorsePower">
+        <item>523</item>
+        <item>362</item>
+        <item>255</item>
+    </integer-array>
 </resources>
 

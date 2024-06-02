@@ -3,6 +3,7 @@ package com.example.project.search;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
@@ -14,9 +15,15 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleAdapter.ViewHolder
     private final String[] textArray;
     private final int[] imageResources;
 
-    public SimpleAdapter(String[] textArray, int[] imageResources) {
+    private final int[] horsePowerArray;
+
+    private OnImageButtonClickListener onImageButtonClickListener;
+
+    public SimpleAdapter(String[] textArray, int[] imageResources, int[] horsePowerArray, OnImageButtonClickListener onImageButtonClickListener) {
         this.textArray = textArray;
         this.imageResources = imageResources;
+        this.horsePowerArray = horsePowerArray;
+        this.onImageButtonClickListener = onImageButtonClickListener;
     }
 
     @NonNull
@@ -31,6 +38,16 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleAdapter.ViewHolder
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.imageView.setImageResource(imageResources[position]);
         holder.textView.setText(textArray[position]);
+
+        final int horsePower = horsePowerArray[position];
+        holder.imageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onImageButtonClickListener != null) {
+                    onImageButtonClickListener.onImageButtonClick(textArray[position], horsePower);
+                }
+            }
+        });
     }
 
     @Override
@@ -41,11 +58,14 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleAdapter.ViewHolder
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public ImageView imageView;
         public TextView textView;
+        public ImageButton imageButton; // добавлено
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.image_view);
             textView = itemView.findViewById(R.id.text_view);
+            imageButton = itemView.findViewById(R.id.image_button); // добавлено
         }
     }
+
 }
