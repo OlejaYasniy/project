@@ -3,9 +3,12 @@ package com.example.project.search;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -48,7 +51,16 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleAdapter.ViewHolder
                 }
             }
         });
+
+        holder.buttonAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(v.getContext(), "Добавлено в избранное: " + textArray[position], Toast.LENGTH_SHORT).show();
+
+            }
+        });
     }
+
 
     @Override
     public int getItemCount() {
@@ -58,13 +70,15 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleAdapter.ViewHolder
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public ImageView imageView;
         public TextView textView;
-        public ImageButton imageButton; // добавлено
+        public ImageButton imageButton;
+        public Button buttonAdd;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.image_view);
             textView = itemView.findViewById(R.id.text_view);
-            imageButton = itemView.findViewById(R.id.image_button); // добавлено
+            imageButton = itemView.findViewById(R.id.image_button);
+            buttonAdd = itemView.findViewById(R.id.button_add);
         }
     }
 
