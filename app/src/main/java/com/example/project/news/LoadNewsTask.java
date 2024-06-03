@@ -18,9 +18,6 @@ public class LoadNewsTask extends AsyncTask<Void, Void, List<News>> {
     @Override
     protected List<News> doInBackground(Void... voids) {
         List<News> news = new ArrayList<>();
-        // TODO: Загрузить новости в фоновом потоке
-        // Например, вы можете использовать веб-скрейпинг или API, предоставляемое сайтом
-        // В этом примере, я использовал статические данные для простоты
         news.add(new News("BMW обновил 3-ю серию", "https://news.drom.ru/BMW-97062.html"));
         news.add(new News("Mercedes-AMG представил коллекционный родстер PureSpeed", "https://news.drom.ru/Mercedes-AMG-PureSpeed-97016.html"));
         news.add(new News("Audi выпустила кроссовер новой эры","https://news.drom.ru/Audi-96513.html"));
@@ -37,8 +34,6 @@ public class LoadNewsTask extends AsyncTask<Void, Void, List<News>> {
     @Override
     protected void onPostExecute(List<News> news) {
         super.onPostExecute(news);
-        // TODO: Обновить UI в основном потоке
-        // В этом примере, я обновляю UI вручную, но вы можете использовать библиотеки, такие как LiveData или RxJava, для автоматического обновления UI
         mNewsFragment.updateNews(news);
     }
 }

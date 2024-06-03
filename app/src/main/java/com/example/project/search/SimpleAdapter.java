@@ -7,7 +7,6 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -41,26 +40,8 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleAdapter.ViewHolder
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.imageView.setImageResource(imageResources[position]);
         holder.textView.setText(textArray[position]);
-
         final int horsePower = horsePowerArray[position];
-        holder.imageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (onImageButtonClickListener != null) {
-                    onImageButtonClickListener.onImageButtonClick(textArray[position], horsePower);
-                }
-            }
-        });
-
-        holder.buttonAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(v.getContext(), "Добавлено в избранное: " + textArray[position], Toast.LENGTH_SHORT).show();
-
-            }
-        });
     }
-
 
     @Override
     public int getItemCount() {
@@ -77,8 +58,6 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleAdapter.ViewHolder
             super(itemView);
             imageView = itemView.findViewById(R.id.image_view);
             textView = itemView.findViewById(R.id.text_view);
-            imageButton = itemView.findViewById(R.id.image_button);
-            buttonAdd = itemView.findViewById(R.id.button_add);
         }
     }
 

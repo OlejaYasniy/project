@@ -61,7 +61,6 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        // Установить текст логина и пароля
         mLoginTextView.setText(mLogin);
         mPasswordTextView.setText(mPassword);
         saveUserData();
@@ -70,15 +69,12 @@ public class ProfileFragment extends Fragment {
     }
 
     private void logout() {
-        // Сбросить логин и пароль
         mLogin = null;
         mPassword = null;
 
-        // Изменить текст пункта меню "Профиль" на "Войти"
         MainActivity mainActivity = (MainActivity) getActivity();
         mainActivity.changeIcon2();
 
-        // Перейти на SearchFragment
         mainActivity.moveToSearchFr();
     }
 

@@ -113,10 +113,8 @@ public class SearchFragment extends Fragment {
                             .replace(R.id.fragment_container, autoFragment)
                             .addToBackStack(null)
                             .commit();
-                // Добавьте аналогичный код для Audi и Mercedes-Benz
             }
         });
-        // Inflate the layout for this fragment
         return view;
     }
 }

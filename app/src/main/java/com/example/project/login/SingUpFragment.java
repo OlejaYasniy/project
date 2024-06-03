@@ -69,17 +69,14 @@ public class SingUpFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_sing_up, container, false);
-        // Добавляем обработчик нажатия на кнопку "sing up"
         EditText password = view.findViewById(R.id.Password);
         EditText login = view.findViewById(R.id.Login);
         TextView singInTextView = view.findViewById(R.id.singIn);
         Button singUpButton = view.findViewById(R.id.singIN);
         dataBase = FirebaseDatabase.getInstance().getReference(USER_KEY);
         singUpButton.setOnClickListener(new View.OnClickListener() {
-            // Проверяем введенные данные
             @Override
             public void onClick(View v) {
-                // Здесь вы можете добавить логику регистрации пользователя
                 String loginText = login.getText().toString();
                 String passwordText = password.getText().toString();
                 if (!loginText.contains("@") || loginText.isEmpty() || passwordText.isEmpty()) {
@@ -87,7 +84,6 @@ public class SingUpFragment extends Fragment {
                     return;
                 }else {
                     dataBaseSave(login, password);
-                    // Вызываем метод FragmentManager для замены текущего фрагмента новым
                     FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                     fragmentTransaction.replace(R.id.fragment_container, new LoginFragment());
@@ -100,7 +96,6 @@ public class SingUpFragment extends Fragment {
         singInTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Вызываем метод FragmentManager для замены текущего фрагмента новым
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.fragment_container, new LoginFragment());

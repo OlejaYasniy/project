@@ -82,17 +82,13 @@ public class LoginFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_login, container, false);
-        //dataBase = FirebaseDatabase.getInstance().getReference(USER_KEY);
         EditText login = view.findViewById(R.id.Login);
         EditText password = view.findViewById(R.id.Password);
         dataBase = FirebaseDatabase.getInstance().getReference(USER_KEY);
-        // Добавляем обработчик нажатия на кнопку "sing up"
         Button singUpButton = view.findViewById(R.id.singIN);
         singUpButton.setOnClickListener(new View.OnClickListener() {
-            // Проверяем введенные данные
             @Override
             public void onClick(View v) {
-                // Здесь вы можете добавить логику регистрации пользователя
                 String loginText = login.getText().toString();
                 String passwordText = password.getText().toString();
                 if (!loginText.contains("@") || loginText.isEmpty() || passwordText.isEmpty()) {
@@ -105,12 +101,10 @@ public class LoginFragment extends Fragment {
                 }
             }
         });
-        // Добавляем обработчик нажатия на TextView "singUp"
         TextView singUpTextView = view.findViewById(R.id.singUp);
         singUpTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Вызываем метод FragmentManager для замены текущего фрагмента новым
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.fragment_container, new SingUpFragment());
@@ -132,14 +126,13 @@ public class LoginFragment extends Fragment {
                     if (user.login.equals(loginText) && user.password.equals(passwordText)) {
                         userFound = true;
                         if (user.id.equals("Admin")) {
-                            setUserId("admin"); // Сохраняем id пользователя
+                            setUserId("Admin");
                         }
                         break;
                     }
                 }
 
                 if (userFound) {
-                    // Передаем логин и пароль в ProfileFragment
                     Bundle args = new Bundle();
                     args.putString("login", loginText);
                     args.putString("password", passwordText);

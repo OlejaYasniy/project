@@ -68,18 +68,15 @@ public class SettingsFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_settings, container, false);
         Switch themeSwitch = view.findViewById(R.id.switchTheme);
-        // Устанавливаем текущее состояние свитчера
         themeSwitch.setChecked(MainActivity.i);
         themeSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                // Обновляем значение MainActivity.i и сохраняем его в SharedPreferences
                 MainActivity.i = isChecked;
                 SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putBoolean("isDarkTheme", MainActivity.i);
                 editor.apply();
-                // Пересоздаем активность, чтобы изменения вступили в силу
                 getActivity().recreate();
             }
         });
