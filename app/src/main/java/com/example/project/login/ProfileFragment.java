@@ -72,6 +72,8 @@ public class ProfileFragment extends Fragment {
         mLogin = null;
         mPassword = null;
 
+        clearUserData();
+
         MainActivity mainActivity = (MainActivity) getActivity();
         mainActivity.changeIcon2();
 
@@ -83,6 +85,15 @@ public class ProfileFragment extends Fragment {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("login", mLogin);
         editor.putString("password", mPassword);
+        editor.apply();
+    }
+
+    private void clearUserData() {
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("user_data", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.remove("login");
+        editor.remove("password");
+        editor.remove("login_person");
         editor.apply();
     }
 

@@ -1,5 +1,6 @@
 package com.example.project.login;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -125,14 +126,15 @@ public class LoginFragment extends Fragment {
                     User user = userSnapshot.getValue(User.class);
                     if (user.login.equals(loginText) && user.password.equals(passwordText)) {
                         userFound = true;
-                        if (user.id.equals("Admin")) {
-                            setUserId("Admin");
-                        }
                         break;
                     }
                 }
 
                 if (userFound) {
+                    SharedPreferences sharedPreferences = getActivity().getSharedPreferences("user_data", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("login_person", loginText);
+                    editor.apply();
                     Bundle args = new Bundle();
                     args.putString("login", loginText);
                     args.putString("password", passwordText);
@@ -167,11 +169,5 @@ public class LoginFragment extends Fragment {
         return mPassword;
     }
 
-    public void setUserId(String userId) {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("user_id", userId);
-        editor.apply();
-    }
 
 }

@@ -1,5 +1,6 @@
 package com.example.project.news;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -84,6 +85,7 @@ public class NewsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
@@ -102,14 +104,6 @@ public class NewsFragment extends Fragment {
         edit = view.findViewById(R.id.floatingActionButton);
         add = view.findViewById(R.id.floatingActionButtonAdd);
         delete = view.findViewById(R.id.floatingActionButtonDelete);
-
-        mListView = view.findViewById(R.id.listView);
-
-        mNews = new ArrayList<>();
-        mAdapter = new NewsAdapter(getActivity(), mNews, this);
-        mListView.setAdapter(mAdapter);
-
-        loadNewsFromSharedPreferences();
         if (isAdmin()) {
             edit.setVisibility(View.VISIBLE);
             edit.setEnabled(true);
@@ -124,6 +118,15 @@ public class NewsFragment extends Fragment {
             edit.setVisibility(View.GONE);
             edit.setEnabled(false);
         }
+        mListView = view.findViewById(R.id.listView);
+
+        mNews = new ArrayList<>();
+        mAdapter = new NewsAdapter(getActivity(), mNews, this);
+        mListView.setAdapter(mAdapter);
+
+
+        loadNewsFromSharedPreferences();
+
 
         add.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -141,13 +144,9 @@ public class NewsFragment extends Fragment {
                     }
                 }
                 mAdapter.notifyDataSetChanged();
+                saveNewsToSharedPreferences();
             }
         });
-
-
-
-        // TODO: Загрузить новости в фоновом потоке при запуске фрагмента
-        new LoadNewsTask(this).execute();
 
         return view;
     }
@@ -213,12 +212,12 @@ public class NewsFragment extends Fragment {
 
     private boolean isAdmin() {
         String userId = getUserId();
-        return userId.equals("Admin");
+        return userId.equals("oleg@mail.ru");
     }
 
     private String getUserId() {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        return sharedPreferences.getString("user_id", "");
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("user_data", Context.MODE_PRIVATE);
+        return sharedPreferences.getString("login_person", "");
     }
 
     public void showAddNewsDialog() {
@@ -241,6 +240,8 @@ public class NewsFragment extends Fragment {
                 } else {
                     Toast.makeText(getActivity(), "Заполните все поля", Toast.LENGTH_SHORT).show();
                 }
+                mAdapter.notifyDataSetChanged();
+                saveNewsToSharedPreferences();
             }
         });
 
@@ -260,12 +261,17 @@ public class NewsFragment extends Fragment {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         String jsonNews = sharedPreferences.getString("saved_news", null);
         if (jsonNews != null) {
-            Type type = new TypeToken<List<News>>() {}.getType();
+            Type type = new TypeToken<List<News>>() {
+            }.getType();
             List<News> loadedNews = new Gson().fromJson(jsonNews, type);
             if (loadedNews != null) {
-                mNews.clear();
+                if (mNews != null) { // Проверка на null перед очисткой
+                    mNews.clear();
+                }
                 mNews.addAll(loadedNews);
-                mAdapter.notifyDataSetChanged();
+                if (mAdapter != null) { // Проверка на null перед уведомлением
+                    mAdapter.notifyDataSetChanged();
+                }
             }
         }
     }
@@ -273,18 +279,51 @@ public class NewsFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
+        if (isAdmin()) {
+            edit.setVisibility(View.VISIBLE);
+            edit.setEnabled(true);
+        } else {
+            edit.setVisibility(View.GONE);
+            edit.setEnabled(false);
+        }
         saveNewsToSharedPreferences();
     }
 
     @Override
     public void onStop() {
         super.onStop();
+        if (isAdmin()) {
+            edit.setVisibility(View.VISIBLE);
+            edit.setEnabled(true);
+        } else {
+            edit.setVisibility(View.GONE);
+            edit.setEnabled(false);
+        }
         saveNewsToSharedPreferences();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
+        if (isAdmin()) {
+            edit.setVisibility(View.VISIBLE);
+            edit.setEnabled(true);
+        } else {
+            edit.setVisibility(View.GONE);
+            edit.setEnabled(false);
+        }
         saveNewsToSharedPreferences();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (isAdmin()) {
+            edit.setVisibility(View.VISIBLE);
+            edit.setEnabled(true);
+        } else {
+            edit.setVisibility(View.GONE);
+            edit.setEnabled(false);
+        }
     }
 }

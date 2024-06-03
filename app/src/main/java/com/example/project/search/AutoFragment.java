@@ -125,6 +125,7 @@ public class AutoFragment extends Fragment implements OnImageButtonClickListener
         builder.setTitle(carName);
         builder.setMessage("Вы выбрали: " + carName + "\n" + "Лошадиные силы: " + horsePower);
 
+
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
