@@ -41,6 +41,14 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleAdapter.ViewHolder
         holder.imageView.setImageResource(imageResources[position]);
         holder.textView.setText(textArray[position]);
         final int horsePower = horsePowerArray[position];
+        holder.buttonAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onImageButtonClickListener != null) {
+                    onImageButtonClickListener.onImageButtonClick(textArray[position], horsePower);
+                }
+            }
+        });
     }
 
     @Override
@@ -51,13 +59,13 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleAdapter.ViewHolder
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public ImageView imageView;
         public TextView textView;
-        public ImageButton imageButton;
         public Button buttonAdd;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.image_view);
             textView = itemView.findViewById(R.id.text_view);
+            buttonAdd = itemView.findViewById(R.id.button_add);
         }
     }
 
